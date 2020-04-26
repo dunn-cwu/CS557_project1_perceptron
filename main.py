@@ -4,8 +4,11 @@ import numpy as np
 # stops training (fails to train)
 MAX_ITERATIONS = 100
 
-I_MATRIX = np.array([[0, 1, 0], [0, 1, 0], [0, 1, 0]])
-L_MATRIX = np.array([[0, 1, 0], [0, 1, 0], [0, 1, 1]])
+I_MATRIX_1 = np.array([[1, 0, 0], [1, 0, 0], [1, 0, 0]])
+I_MATRIX_2 = np.array([[0, 1, 0], [0, 1, 0], [0, 1, 0]])
+I_MATRIX_3 = np.array([[0, 0, 1], [0, 0, 1], [0, 0, 1]])
+L_MATRIX_1 = np.array([[1, 0, 0], [1, 0, 0], [1, 1, 0]])
+L_MATRIX_2 = np.array([[0, 1, 0], [0, 1, 0], [0, 1, 1]])
 
 class Perceptron:
     def __init__(self, inputMatrixSize, learningRate):
@@ -107,20 +110,21 @@ class Perceptron:
         print("Testing completed.")
         print(numCorrect, "out of", testingSetSize, "inputs were correctly classified.")
         print("=======================================\n")
-print("I matrix:")
-print(I_MATRIX)
 
-print("\nL matrix:")
-print(L_MATRIX)
+(rows, cols) = np.shape(I_MATRIX_1)
+p = Perceptron(rows * cols, 0.1)
 
-(rows, cols) = np.shape(I_MATRIX)
-p = Perceptron(rows * cols, 1.0)
+p.addToTrainingSet(I_MATRIX_1, -1)
+p.addToTrainingSet(I_MATRIX_2, -1)
+p.addToTrainingSet(I_MATRIX_3, -1)
+p.addToTrainingSet(L_MATRIX_1, 1)
+p.addToTrainingSet(L_MATRIX_2, 1)
 
-p.addToTrainingSet(I_MATRIX, -1)
-p.addToTrainingSet(L_MATRIX, 1)
-
-p.addToTestingSet(I_MATRIX, -1)
-p.addToTestingSet(L_MATRIX, 1)
+p.addToTestingSet(I_MATRIX_1, -1)
+p.addToTestingSet(I_MATRIX_2, -1)
+p.addToTestingSet(I_MATRIX_3, -1)
+p.addToTestingSet(L_MATRIX_1, 1)
+p.addToTestingSet(L_MATRIX_2, 1)
 
 print("\nInital weight vector:", p.weightVector)
 
