@@ -87,7 +87,26 @@ class Perceptron:
             print("Final weight vector:", self.weightVector)
         else:
              print("Training failed to complete after", iteration, "iterations")
+        print("=======================================\n")
 
+    def test(self):
+        if len(self.testingSet) <= 0:
+            raise Exception("Error: Testing set is empty")
+
+        testingSetSize = len(self.testingSet)
+        numCorrect = 0
+
+        for i in range(testingSetSize):
+            resultVect = self.testingSet[i] * self.weightVector
+            resultVal = self.sigmoidFunc(resultVect)
+
+            if resultVal == self.testingLabels[i]:
+                numCorrect += 1
+
+        print("\n=======================================")
+        print("Testing completed.")
+        print(numCorrect, "out of", testingSetSize, "inputs were correctly classified.")
+        print("=======================================\n")
 print("I matrix:")
 print(I_MATRIX)
 
@@ -96,9 +115,14 @@ print(L_MATRIX)
 
 (rows, cols) = np.shape(I_MATRIX)
 p = Perceptron(rows * cols, 1.0)
+
 p.addToTrainingSet(I_MATRIX, -1)
 p.addToTrainingSet(L_MATRIX, 1)
+
+p.addToTestingSet(I_MATRIX, -1)
+p.addToTestingSet(L_MATRIX, 1)
 
 print("\nInital weight vector:", p.weightVector)
 
 p.train()
+p.test()
