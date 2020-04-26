@@ -1,5 +1,9 @@
 import numpy as np
 
+# Maximum training iterations before perceptron
+# stops training (fails to train)
+MAX_ITERATIONS = 100
+
 I_MATRIX = np.array([[0, 1, 0], [0, 1, 0], [0, 1, 0]])
 L_MATRIX = np.array([[0, 1, 0], [0, 1, 0], [0, 1, 1]])
 
@@ -53,8 +57,10 @@ class Perceptron:
         if len(self.trainingSet) <= 0:
             raise Exception("Error: Training set is empty")
 
+        global MAX_ITERATIONS
         iteration = 0
         trainingSetSize = len(self.trainingSet)
+        trainingSuccess = False
 
         while True:
             iteration += 1
@@ -70,11 +76,17 @@ class Perceptron:
                     self.adjustWeights(self.trainingSet[i], self.trainingLabels[i], resultVal)
 
             if numCorrect == trainingSetSize:
+                trainingSuccess = True
+                break
+            elif iteration >= MAX_ITERATIONS:
                 break
         
         print("\n=======================================")
-        print("Training completed in", iteration, "iterations")
-        print("Final weight vector:", self.weightVector)
+        if trainingSuccess:
+            print("Training successfully completed in", iteration, "iterations")
+            print("Final weight vector:", self.weightVector)
+        else:
+             print("Training failed to complete after", iteration, "iterations")
 
 print("I matrix:")
 print(I_MATRIX)
