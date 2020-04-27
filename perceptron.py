@@ -1,13 +1,10 @@
 import numpy as np
 
-# Maximum training iterations before perceptron
-# stops training (fails to train)
-MAX_ITERATIONS = 200
-
 class Perceptron:
-    def __init__(self, inputMatrixSize, learningRate):
+    def __init__(self, inputMatrixSize, learningRate, maxIterations):
         self.inputSize = inputMatrixSize + 1
         self.learningRate = learningRate
+        self.maxIterations = maxIterations
         self.trainingSet = []
         self.trainingLabels = []
         self.testingSet = []
@@ -54,7 +51,6 @@ class Perceptron:
         if len(self.trainingSet) <= 0:
             raise Exception("Error: Training set is empty")
 
-        global MAX_ITERATIONS
         iteration = 0
         trainingSetSize = len(self.trainingSet)
         trainingSuccess = False
@@ -77,7 +73,7 @@ class Perceptron:
             if numCorrect == trainingSetSize:
                 trainingSuccess = True
                 break
-            elif iteration >= MAX_ITERATIONS:
+            elif iteration >= self.maxIterations:
                 break
         
         print("\n=======================================")
@@ -87,6 +83,8 @@ class Perceptron:
              print("Training failed to complete after", iteration, "iterations")
         print("Final weight vector:", self.weightVector)
         print("=======================================\n")
+
+        return trainingSuccess
 
     def test(self):
         if len(self.testingSet) <= 0:
@@ -104,8 +102,12 @@ class Perceptron:
             if resultVal == self.testingLabels[i]:
                 numCorrect += 1
 
+
+        accuracy = round((float(numCorrect) / float(testingSetSize)) * 100, 2)
+        
         print("\n=======================================")
         print("Testing completed.")
         print(numCorrect, "out of", testingSetSize, 
-            "inputs were correctly classified (" + str(round((float(numCorrect) / float(testingSetSize)) * 100, 2)) + "%).")
+            "inputs were correctly classified (" + str(accuracy) + "%).")
         print("=======================================\n")
+        return accuracy
