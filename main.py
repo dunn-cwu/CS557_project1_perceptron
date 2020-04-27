@@ -1,4 +1,5 @@
 import numpy as np
+import random
 import perceptron as per
 import input_gen as igen
 
@@ -27,19 +28,54 @@ L_samples = gen.generate_L_samples(3, 3, 2, 2)
 print("Generated", len(I_samples), " 'I' samples.")
 print("Generated", len(L_samples), " 'L' samples.")
 
-print("Example 'I' sample:")
+print("\nExample 'I' sample:")
 print(I_samples[0])
 
 print("\nExample 'L' sample:")
 print(L_samples[0])
 
-for s in I_samples:
-    p.addToTrainingSet(s, -1)
-    p.addToTestingSet(s, -1)
+totalSamples = len(I_samples) + len(L_samples)
+if totalSamples < 10:
+    print("\nNote: Total number of samples is less than 10.")
+    print("Training and Testing sets will reuse the same samples.")
+    
+    for s in I_samples:
+        p.addToTrainingSet(s, -1)
+        p.addToTestingSet(s, -1)
 
-for s in L_samples:
-    p.addToTrainingSet(s, 1)
-    p.addToTestingSet(s, 1)
+    for s in L_samples:
+        p.addToTrainingSet(s, 1)
+        p.addToTestingSet(s, 1)
+else:
+    ratio = float(input("\nEnter ratio of samples used for training (EX: 0.8): "))
+    if ratio < 0.0 or ratio > 1.0:
+        print("Error: Ratio must be a value between 0.0 and 1.0")
+        exit(1)
+
+    combinedSamples = []
+
+    for s in I_samples:
+        combinedSamples.append((s, -1))
+
+    for s in L_samples:
+        combinedSamples.append((s, 1))
+
+    trainingSize = int(len(combinedSamples) * ratio)
+    random.shuffle(combinedSamples)
+
+    if trainingSize == len(combinedSamples):
+        print("Note: Since all samples are being used in training, all will be reused in testing.")
+        for i in range(len(combinedSamples)):
+            p.addToTrainingSet(combinedSamples[i][0], combinedSamples[i][1])
+            p.addToTestingSet(combinedSamples[i][0], combinedSamples[i][1])
+    else:
+        for i in range(trainingSize):
+            p.addToTrainingSet(combinedSamples[i][0], combinedSamples[i][1])
+
+        for i in range(trainingSize, len(combinedSamples)):
+            p.addToTestingSet(combinedSamples[i][0], combinedSamples[i][1])
+
+        print("Using", trainingSize, "samples for training and", len(combinedSamples) - trainingSize, "samples for testing.")
 
 print("\nInitial weight vector:", p.weightVector)
 print()

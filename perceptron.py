@@ -2,7 +2,7 @@ import numpy as np
 
 # Maximum training iterations before perceptron
 # stops training (fails to train)
-MAX_ITERATIONS = 100
+MAX_ITERATIONS = 200
 
 class Perceptron:
     def __init__(self, inputMatrixSize, learningRate):
