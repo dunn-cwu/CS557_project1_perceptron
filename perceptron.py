@@ -59,6 +59,8 @@ class Perceptron:
         trainingSetSize = len(self.trainingSet)
         trainingSuccess = False
 
+        print("Training using", trainingSetSize, "samples ...")
+
         while True:
             iteration += 1
             numCorrect = 0
@@ -92,6 +94,8 @@ class Perceptron:
 
         testingSetSize = len(self.testingSet)
         numCorrect = 0
+
+        print("Testing using", testingSetSize, "samples ...")
 
         for i in range(testingSetSize):
             resultVect = self.testingSet[i] * self.weightVector
