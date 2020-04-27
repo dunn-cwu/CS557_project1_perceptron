@@ -3,16 +3,7 @@ import random
 import perceptron as per
 import input_gen as igen
 
-# I_MATRIX_1 = np.array([[1, 0, 0], [1, 0, 0], [1, 0, 0]])
-# I_MATRIX_2 = np.array([[0, 1, 0], [0, 1, 0], [0, 1, 0]])
-# I_MATRIX_3 = np.array([[0, 0, 1], [0, 0, 1], [0, 0, 1]])
-# L_MATRIX_1 = np.array([[1, 0, 0], [1, 0, 0], [1, 1, 0]])
-# L_MATRIX_2 = np.array([[0, 1, 0], [0, 1, 0], [0, 1, 1]])
-
-# (rows, cols) = np.shape(I_MATRIX_1)
-# p = per.Perceptron(rows * cols, 0.1)
-
-size = int(input("Input size of matrix (minimum 3): "))
+size = int(input("Enter size of input matrix (minimum 3): "))
 if size < 3:
     print("Error: Size cannot be less than 3")
     exit(1)
@@ -20,13 +11,54 @@ if size < 3:
 p = per.Perceptron(size * size, 0.1)
 gen = igen.InputGenerator(size)
 
-print("Generating samples ...")
+inputStr = ""
 
-I_samples = gen.generate_I_samples(3, 3)
-L_samples = gen.generate_L_samples(3, 3, 2, 2)
+while inputStr != "y" and inputStr != "n":
+    inputStr = input("Would you like to customize the shape of the 'I' and 'L' letters (y or n)? ").lower()
 
-print("Generated", len(I_samples), " 'I' samples.")
-print("Generated", len(L_samples), " 'L' samples.")
+I_samples = None
+L_samples = None
+
+if inputStr == "n":
+    print("Generating basic samples ...")
+
+    I_samples = gen.generate_I_samples(3, 3)
+    L_samples = gen.generate_L_samples(3, 3, 2, 2)
+else:
+    I_minheight = 0
+    I_maxHeight = 0
+    L_minHeight = 0
+    L_maxHeight = 0
+    L_minWidth = 0
+    L_maxWidth = 0
+
+    while I_minheight < 2 or I_minheight > size:
+        I_minheight = int(input("Enter minimum height for 'I' character (2 - " + str(size) + "): "))
+
+    while I_maxHeight < I_minheight or I_maxHeight > size:
+        I_maxHeight = int(input("Enter maximum height for 'I' character (" + str(I_minheight) + " - " + str(size) + "): "))
+
+    # --------
+    while L_minHeight < 2 or L_minHeight > size:
+        L_minHeight = int(input("Enter minimum height for 'L' character (2 - " + str(size) + "): "))
+
+    while L_maxHeight < L_minHeight or L_maxHeight > size:
+        L_maxHeight = int(input("Enter maximum height for 'L' character (" + str(L_minHeight) + " - " + str(size) + "): "))
+
+    # --------
+    while L_minWidth < 2 or L_minWidth > size:
+        L_minWidth = int(input("Enter minimum width for 'L' character (2 - " + str(size) + "): "))
+
+    while L_maxWidth < L_minWidth or L_maxWidth > size:
+        L_maxWidth = int(input("Enter maximum width for 'L' character (" + str(L_minWidth) + " - " + str(size) + "): "))
+
+    print("Generating custom samples ...")
+
+    I_samples = gen.generate_I_samples(I_minheight, I_maxHeight)
+    L_samples = gen.generate_L_samples(L_minHeight, L_maxHeight, L_minWidth, L_maxWidth)
+
+print("Generated", len(I_samples), "'I' samples.")
+print("Generated", len(L_samples), "'L' samples.")
 
 print("\nExample 'I' sample:")
 print(I_samples[0])

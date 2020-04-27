@@ -83,9 +83,9 @@ class Perceptron:
         print("\n=======================================")
         if trainingSuccess:
             print("Training successfully completed in", iteration, "iterations")
-            print("Final weight vector:", self.weightVector)
         else:
              print("Training failed to complete after", iteration, "iterations")
+        print("Final weight vector:", self.weightVector)
         print("=======================================\n")
 
     def test(self):
@@ -106,5 +106,6 @@ class Perceptron:
 
         print("\n=======================================")
         print("Testing completed.")
-        print(numCorrect, "out of", testingSetSize, "inputs were correctly classified.")
+        print(numCorrect, "out of", testingSetSize, 
+            "inputs were correctly classified (" + str(round((float(numCorrect) / float(testingSetSize)) * 100, 2)) + "%).")
         print("=======================================\n")
