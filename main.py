@@ -28,14 +28,14 @@ def main():
         else:
             print("Reusing maximum training iterations of", maxIterations)
 
-        if p == None or createPerceptron:
+        if p == None or createPerceptron or exper.askYesNoQuestion("Would you like to generate a new set of samples?"):
             p = per.Perceptron(size * size, learningRate, maxIterations)
             exper.initSamples(p, size)
         else:
             p.initializeRandomWeights()
             p.learningRate = learningRate
             p.maxIterations = maxIterations
-            print("\nTraining and Testing sample sets are being reused.")
+            print("\nTraining and Testing samples are being reused.")
             print("Neuron weights were randomized to new values.")
 
         input("\nPress the Enter key to begin training.")

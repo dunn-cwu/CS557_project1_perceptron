@@ -1,4 +1,5 @@
 import numpy as np
+import time
 
 class Perceptron:
     def __init__(self, inputMatrixSize, learningRate, maxIterations):
@@ -57,6 +58,8 @@ class Perceptron:
 
         print("Training using", trainingSetSize, "samples ...")
 
+        start_time = time.time()
+
         while True:
             iteration += 1
             numCorrect = 0
@@ -76,11 +79,15 @@ class Perceptron:
             elif iteration >= self.maxIterations:
                 break
         
+        end_time = time.time()
+
         print("\n=======================================")
         if trainingSuccess:
-            print("Training successfully completed in", iteration, "iterations")
+            print("Training successfully completed in", iteration, 
+                "iterations (" + str(round(end_time - start_time, 3)) + " seconds)")
         else:
-             print("Training failed to complete after", iteration, "iterations")
+            print("Training failed to complete after", iteration, 
+                "iterations (" + str(round(end_time - start_time, 3)) + " seconds)")
         print("Final weight vector:", self.weightVector)
         print("=======================================\n")
 
@@ -95,6 +102,8 @@ class Perceptron:
 
         print("Testing using", testingSetSize, "samples ...")
 
+        start_time = time.time()
+
         for i in range(testingSetSize):
             resultVect = self.testingSet[i] * self.weightVector
             resultVal = self.sigmoidFunc(resultVect)
@@ -102,11 +111,12 @@ class Perceptron:
             if resultVal == self.testingLabels[i]:
                 numCorrect += 1
 
+        end_time = time.time()
 
         accuracy = round((float(numCorrect) / float(testingSetSize)) * 100, 2)
-        
+
         print("\n=======================================")
-        print("Testing completed.")
+        print("Testing completed in", round(end_time - start_time, 3), "seconds.")
         print(numCorrect, "out of", testingSetSize, 
             "inputs were correctly classified (" + str(accuracy) + "%).")
         print("=======================================\n")
