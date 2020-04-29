@@ -6,6 +6,7 @@ def main():
     size = None
     learningRate = None
     maxIterations = None
+    amntNoise = None
     p = None
     
     while True:
@@ -28,9 +29,16 @@ def main():
         else:
             print("Reusing maximum training iterations of", maxIterations)
 
+        if amntNoise == None or exper.askYesNoQuestion("Would you like to enter a new value for maximum noise?"):
+            print("Note: A new training and sample set will have to be created.")
+            amntNoise = exper.getAmountNoise()
+            createPerceptron = True
+        else:
+            print("Reusing maximum noise amount of", amntNoise)
+
         if p == None or createPerceptron or exper.askYesNoQuestion("Would you like to generate a new set of samples?"):
             p = per.Perceptron(size * size, learningRate, maxIterations)
-            exper.initSamples(p, size)
+            exper.initSamples(p, size, amntNoise)
         else:
             p.initializeRandomWeights()
             p.learningRate = learningRate

@@ -52,7 +52,13 @@ def getMaxIterations():
         maxIter = safeIntInput("\nEnter maximum number of training iterations (minimum 100): ")
     return maxIter
 
-def initSamples(p, size):
+def getAmountNoise():
+    amntNoise = -1
+    while amntNoise < 0:
+        amntNoise = safeIntInput("\nEnter maximum amount of added noise (minimum 0): ")
+    return amntNoise
+
+def initSamples(p, size, amntNoise):
     # p = per.Perceptron(size * size, 0.1)
     gen = igen.InputGenerator(size)
 
@@ -62,12 +68,15 @@ def initSamples(p, size):
     L_samples = None
 
     print()
-
+    print("Note: Generation may take up to", gen.getMaxTime() * 2, "seconds to complete.")
+    
     if not inputStr:
         print("Generating basic samples ...")
 
-        I_samples = gen.generate_I_samples(3, 3)
-        L_samples = gen.generate_L_samples(3, 3, 2, 2)
+        I_samples = gen.generate_I_samples(3, 3, amntNoise)
+        print("Generated", len(I_samples), "'I' samples.")
+        L_samples = gen.generate_L_samples(3, 3, 2, 2, amntNoise)
+        print("Generated", len(L_samples), "'L' samples.")  
     else:
         I_minheight = 0
         I_maxHeight = 0
@@ -98,11 +107,11 @@ def initSamples(p, size):
 
         print("Generating custom samples ...")
 
-        I_samples = gen.generate_I_samples(I_minheight, I_maxHeight)
-        L_samples = gen.generate_L_samples(L_minHeight, L_maxHeight, L_minWidth, L_maxWidth)
+        I_samples = gen.generate_I_samples(I_minheight, I_maxHeight, amntNoise)
+        print("Generated", len(I_samples), "'I' samples.")
 
-    print("Generated", len(I_samples), "'I' samples.")
-    print("Generated", len(L_samples), "'L' samples.")
+        L_samples = gen.generate_L_samples(L_minHeight, L_maxHeight, L_minWidth, L_maxWidth, amntNoise)
+        print("Generated", len(L_samples), "'L' samples.")  
 
     print("\nExample 'I' sample:")
     print(I_samples[0])
