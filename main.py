@@ -1,3 +1,11 @@
+# Assignment: Project 1
+# Course: CS557 Computational Intelligence and Machine Learning
+# Instructor: Dr. Razvan Andonie
+# Student: Andrew Dunn
+# Date: 4/30/2020
+# File: main.py
+# Desc: Program entry point. Creates the perceptron object and runs experiments.
+
 import perceptron as per
 import experiment as exper
 
@@ -58,3 +66,7 @@ def main():
         
 if __name__ == "__main__":
     main()
+
+# ================================
+# End Of File
+# ================================

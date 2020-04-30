@@ -1,3 +1,13 @@
+# Assignment: Project 1
+# Course: CS557 Computational Intelligence and Machine Learning
+# Instructor: Dr. Razvan Andonie
+# Student: Andrew Dunn
+# Date: 4/30/2020
+# File: perceptron.py
+# Desc: Contains the Perceptron class, which is a simple single neuron
+#       machine learning model that can classify an input into two different
+#       classes.
+
 import numpy as np
 import time
 
@@ -121,3 +131,7 @@ class Perceptron:
             "inputs were correctly classified (" + str(accuracy) + "%).")
         print("=======================================\n")
         return accuracy
+
+# ================================
+# End Of File
+# ================================

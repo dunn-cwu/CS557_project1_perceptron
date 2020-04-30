@@ -1,8 +1,18 @@
+# Assignment: Project 1
+# Course: CS557 Computational Intelligence and Machine Learning
+# Instructor: Dr. Razvan Andonie
+# Student: Andrew Dunn
+# Date: 4/30/2020
+# File: experiment.py
+# Desc: Contains helper functions used in main.py
+
 import numpy as np
 import random
 import perceptron as per
 import input_gen as igen
 
+# Simple wrapper for the input function that makes
+# it exception safe
 def safeInput(*args):
     try:
         return input(*args)
@@ -10,6 +20,8 @@ def safeInput(*args):
         print(e)
         return ""
 
+# Simple wrapper for the input function that makes
+# it exception safe. Automatically converts input to int.
 def safeIntInput(*args):
     try:
         return int(input(*args))
@@ -17,6 +29,8 @@ def safeIntInput(*args):
         print(e)
         return -1
 
+# Simple wrapper for the input function that makes
+# it exception safe. Automatically converts input to float.
 def safeFloatInput(*args):
     try:
         return float(input(*args))
@@ -24,6 +38,7 @@ def safeFloatInput(*args):
         print(e)
         return -1.0
 
+# Simple wrapper function that handles the response to a yes or no question
 def askYesNoQuestion(question):
     answer = ""
     while answer != "y" and answer != "n":
@@ -34,32 +49,39 @@ def askYesNoQuestion(question):
     else:
         return False
 
+# Asks user for the matrix size
 def getMatrixSize():
     size = 0
     while size < 3:
         size = safeIntInput("\nEnter size of input matrix (minimum 3): ")
     return size
 
+# Asks user for the learning rate
 def getLearningRate():
     rate = -1.0
     while rate <= 0:
         rate = safeFloatInput("\nEnter learning rate (EX: 0.1): ")
     return rate
 
+# Asks user for the maximum iterations
 def getMaxIterations():
     maxIter = 0
     while maxIter < 100:
         maxIter = safeIntInput("\nEnter maximum number of training iterations (minimum 100): ")
     return maxIter
 
+# Asks user for the number of noise pixels
 def getAmountNoise():
     amntNoise = -1
     while amntNoise < 0:
         amntNoise = safeIntInput("\nEnter maximum amount of added noise (minimum 0): ")
     return amntNoise
 
+# Generates the input sample data and adds
+# them to the given perceptron. Allows user
+# to customize the shape of the 'I' and 'L'
+# characters.
 def initSamples(p, size, amntNoise):
-    # p = per.Perceptron(size * size, 0.1)
     gen = igen.InputGenerator(size)
 
     inputStr = askYesNoQuestion("Would you like to customize the shape of the 'I' and 'L' letters")
@@ -161,3 +183,7 @@ def initSamples(p, size, amntNoise):
                 p.addToTestingSet(combinedSamples[i][0], combinedSamples[i][1])
 
             print("Using", trainingSize, "samples for training and", len(combinedSamples) - trainingSize, "samples for testing.")
+
+# ================================
+# End Of File
+# ================================

@@ -1,3 +1,13 @@
+# Assignment: Project 1
+# Course: CS557 Computational Intelligence and Machine Learning
+# Instructor: Dr. Razvan Andonie
+# Student: Andrew Dunn
+# Date: 4/30/2020
+# File: input_gen.py
+# Desc: Contains the InputGenerator class, which is responsible for
+#       generating the input sample data sets. Ensures that all samples
+#       are unique within a given class.
+
 import numpy as np
 import time
 
@@ -92,6 +102,7 @@ class InputGenerator:
                 break
 
         return samples
-        
-#g = InputGenerator(3)
-#print(g.generate_L_samples(3, 3, 2, 2)[0])
+
+# ================================
+# End Of File
+# ================================
