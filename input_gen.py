@@ -2,7 +2,7 @@ import numpy as np
 import time
 
 MAX_SEQUENTIAL_FAILURES = 50
-MAX_TIME_SECONDS = 60
+MAX_TIME_SECONDS = 240
 
 class InputGenerator:
     def __init__(self, matrixSize):
